@@ -565,3 +565,22 @@ ok =:\r\n\
   t.end();
 });
 
+
+test( 'list with linebreaks', function ( t ) {
+  let tx = "* A first item\r\n\
+ second line\r\n\
+* A second item\r\n\
+ second line\r\n\
+* A third\r\n\
+ second line";
+  t.is( textile.convert( tx ),
+    "<ol>\n\
+\t<li>A first item<br />\n\
+second line</li>\n\
+\t<li>A second item<br />\n\
+second line</li>\n\
+\t<li>A third<br />\n\
+second line</li>\n\
+</ol>", tx );
+  t.end();
+});
