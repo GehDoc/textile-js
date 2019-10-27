@@ -220,4 +220,41 @@ p. This is <strong>a block</strong>.
   t.is( textile.convert( tx ), op, tx ); t.end();
 });
 
+test( "Spaces don't matter to HTML... outside pre.", t => {
+  // equal to https://textile-lang.com/doc/html
+  const tx = ` <pre>
+p. This is *a block*.
+ </pre>`;
+  const op = `<pre>
+p. This is *a block*.
+ </pre>`;
+  t.is( textile.convert( tx ), op, tx ); t.end();
+});
 
+test( "Spaces don't matter to HTML... inside pre.", t => {
+  // TODO : bug report to https://github.com/textile/php-textile/ , they interpret "*" as "<strong>" in this case.
+  const tx = `<pre>
+p. This is *a block*.
+
+p. This is *a block*.
+</pre>`;
+  const op = `<pre>
+p. This is *a block*.
+
+p. This is *a block*.
+</pre>`;
+  t.is( textile.convert( tx ), op, tx ); t.end();
+});
+
+test( "Text + HTML, should not enclose all in <P>", t => {
+  // equal to https://textile-lang.com/doc/html
+  const tx = `Text:
+<pre>
+p. This is *a block*.
+</pre>`;
+  const op = `Text:
+<pre>
+p. This is *a block*.
+</pre>`;
+  t.is( textile.convert( tx ), op, tx ); t.end();
+});
