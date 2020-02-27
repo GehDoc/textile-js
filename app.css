@@ -85,6 +85,14 @@ body > h1 {
   color : #aaa;
   font-size : 11px;
 }
+#credit2 .main {
+  color : #000;
+  font-size : 11px;
+}
+#credit2 .fade {
+  color : #aaa;
+  font-size : 11px;
+}
 .drophover {
   cursor: copy;
   /* no-drop, not-allowed */

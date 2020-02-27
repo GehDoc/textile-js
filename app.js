@@ -25,7 +25,13 @@ jQuery(function($){
     last = text;
 
     var startTime = new Date() * 1;	
-    var html = textile.convert( text );
+    var html = textile.convert(
+      text,
+      {
+        showOriginalLineNumber: true,
+        cssClassOriginalLineNumber: 'source-line',
+      }
+    );
     var endTime = new Date() * 1;
     processing_time = endTime - startTime;
 

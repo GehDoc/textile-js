@@ -13,6 +13,8 @@ bq. Textile takes plain text with *simple* markup and produces valid XHTML. It's
 
 This document is written in Textile; you can see the plain-text version on the left.  To get a feel for Textile's syntax, type some text into the left window and watch the results in the right.  You can see a Textile syntax guide by switching the right-hand window from _Preview_ to _Syntax Guide_.
 
-Textile-js is a JavaScript port of Textile.  You can get the full source code from its "GitHub repository":https://github.com/borgar/js-textile.
+Textile-js is a JavaScript port of Textile.  You can get the full source code from its "GitHub repository":https://github.com/GehDoc/textile-js.
+
+**WARNING :** This is a **fork of the original JavaScript port of Textile**.  If you are searching for it, you can get the full source code from its "GitHub repository":https://github.com/borgar/textile-js. 
 
 **Start with a "(clear)blank page (clear text)":# or edit this document in the left window.**
