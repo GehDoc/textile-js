@@ -46,7 +46,7 @@ Works only when @showOriginalLineNumber@ option is enabled.|
 The function receives a JsonML node (JsonML sub-tree), and returns it with modifications.|
 |lineOffset|@integer@|@0@|Line number offset of the first char in input text, for @showOriginalLineNumber@ option.|
 |renderers|<pre><code>[
-    content: function(
+    function(
         tag: string,
         attributes?: object,
         content: string
