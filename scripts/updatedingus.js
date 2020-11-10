@@ -19,7 +19,7 @@ exec( 'git checkout gh-pages', o => {
     fs.writeFileSync( './textile.js', src, 'utf8' );
 
     // commit changes
-    exec( `git commit -m "${ updateMessage }" textile.js`, o => {
+    exec( `git commit -m "${ updateMessage }" ./textile.js`, o => {
       // push to github
       exec( 'git push', o => {
         // switch back to master
