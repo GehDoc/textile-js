@@ -1,15 +1,9 @@
 const path = require( 'path' );
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require( 'terser-webpack-plugin' );
 const WebpackAutoInject = require( 'webpack-auto-inject-version' );
 
-const env = process.env.WEBPACK_ENV;
 const plugins = [];
-let ext = '.js';
-
-if ( env === 'min' ) {
-  plugins.push( new TerserPlugin() );
-  ext = '.min.js';
-}
+plugins.push( new TerserPlugin() );
 plugins.push(
   new WebpackAutoInject({
     SHORT: 'textile-js | https://github.com/GehDoc/textile-js',
@@ -33,13 +27,14 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: path.resolve( './lib' ),
-    filename: 'textile' + ext,
+    filename: 'textile.js',
     library: 'textile',
     libraryTarget: 'umd',
     umdNamedDefine: true,
     globalObject: 'this'
   },
   optimization: {
+    minimize: true,
     minimizer: plugins
   },
   module: {
