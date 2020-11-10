@@ -621,6 +621,15 @@ test( 'notextile should work inline (#49)', function ( t ) {
   t.end();
 });
 
+
+test( 'Lists have to start at level 1 (#56)', function ( t ) {
+  const tx = '*** foo';
+  t.is( textile.convert( tx ),
+    '<p>*** foo</p>' );
+  t.end();
+});
+
+
 test( 'inline tag should bound phrase (#57)', function ( t ) {
   const tx = '*foo*<notextile></notextile>bar';
   t.is( textile.convert( tx ),
@@ -628,9 +637,57 @@ test( 'inline tag should bound phrase (#57)', function ( t ) {
   t.end();
 });
 
+
 test( 'inline tag should bound phrase [2] (#57)', function ( t ) {
   const tx = '*fo<i/>o*<i/>bar';
   t.is( textile.convert( tx ),
     '<p><strong>fo<i></i>o</strong><i></i>bar</p>' );
+  t.end();
+});
+
+
+test( 'self referencing links (#44)', function ( t ) {
+  t.is( textile.convert( '"$":http://example.com/sw' ),
+    '<p><a href="http://example.com/sw">example.com/sw</a></p>' );
+  t.is( textile.convert( '"$":https://example.com/sw' ),
+    '<p><a href="https://example.com/sw">example.com/sw</a></p>' );
+  t.is( textile.convert( '"$":ftp://example.com/sw' ),
+    '<p><a href="ftp://example.com/sw">example.com/sw</a></p>' );
+  t.is( textile.convert( '"$":mailto:user@example.com' ),
+    '<p><a href="mailto:user@example.com">user@example.com</a></p>' );
+  t.is( textile.convert( '"$ (foo)":http://example.com/sw' ),
+    '<p><a href="http://example.com/sw" title="foo">example.com/sw</a></p>' );
+  t.end();
+});
+
+
+test( 'linebreaks following a table (#52)', function ( t ) {
+  const tx1 = '|a|b|\n\n\nh1. header';
+  t.is( textile.convert( tx1 ),
+    '<table>\n\t<tr>\n\t\t<td>a</td>\n\t\t<td>b</td>\n\t</tr>\n</table>\n' +
+    '<h1>header</h1>'
+  );
+  const tx2 = '|a|b|\n\n\n\n\n\n\n\n\nh1. header';
+  t.is( textile.convert( tx2 ),
+    '<table>\n\t<tr>\n\t\t<td>a</td>\n\t\t<td>b</td>\n\t</tr>\n</table>\n' +
+    '<h1>header</h1>'
+  );
+  // Added for gehdoc/textile-js
+  const tx3 = '|a|b|\n\n\n\n\n\n\n\n\n';
+  t.is( textile.convert( tx3 ),
+    '<table>\n\t<tr>\n\t\t<td>a</td>\n\t\t<td>b</td>\n\t</tr>\n</table>' );
+  t.end();
+});
+
+
+test( 'prefixed links (#60)', function ( t ) {
+  t.is( textile.convert( 'user <"user@example.com":mailto:user@example.com>' ),
+    '<p>user &lt;<a href="mailto:user@example.com">user@example.com</a>&gt;</p>' );
+  t.is( textile.convert( 'user ["user@example.com":mailto:user@example.com' ),
+    '<p>user [<a href="mailto:user@example.com">user@example.com</a></p>' );
+  t.is( textile.convert( 'user ["user@example.com":mailto:user@example.com]' ),
+    '<p>user <a href="mailto:user@example.com">user@example.com</a></p>' );
+  t.is( textile.convert( 'user %"user@example.com":mailto:user@example.com' ),
+    '<p>user %<a href="mailto:user@example.com">user@example.com</a></p>' );
   t.end();
 });

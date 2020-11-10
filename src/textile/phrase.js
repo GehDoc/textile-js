@@ -75,7 +75,7 @@ function parsePhrase ( src, options, charPosToLine, charOffset ) {
 
     // lookbehind => /([\s>.,"'?!;:])$/
     const behind = src.lookbehind( 1 );
-    const boundary = !behind || /^[\s>.,"'?!;:()]$/.test( behind );
+    const boundary = !behind || /^[\s<>.,"'?!;:()[\]%{}]$/.test( behind );
     // FIXME: need to test right boundary for phrases as well
     if ( ( m = rePhrase.exec( src ) ) && ( boundary || m[1] ) ) {
       src.advance( m[0] );
@@ -246,6 +246,10 @@ function parsePhrase ( src, options, charPosToLine, charOffset ) {
       }
       pba.href = m[2];
       if ( title ) { pba.title = title[1]; }
+      // links may self-reference their url via $
+      if ( inner === '$' ) {
+        inner = pba.href.replace( /^(https?:\/\/|ftps?:\/\/|mailto:)/, '' );
+      }
       // FIXME : small shift, because parsePhrase is called with an inexact offset
       list.add( [ 'a', pba ].concat( parsePhrase( inner.replace( /^(\.?\s*)/, '' ), options, charPosToLine, charOffset + src.getSlot() ) ) );
       continue;
