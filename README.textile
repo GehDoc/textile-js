@@ -37,20 +37,20 @@ h3. <a name="options" />Options
 Works only when @showOriginalLineNumber@ option is enabled.|
 |hooks|<pre><code>[
   function(
-    jsonml :any[],
-    param :any OR undefined,
-    Nodelevel :number
-  ) :any[],
-  param? :any
+    jsonml: any[],
+    param?: any,
+    Nodelevel: number
+  ): any[],
+  param?: any
 ]</code></pre>|@[]@|Array of function (and optional initial parameter), applied in the order of the array to each JsonML node before rendering to HTML.
 The function receives a JsonML node (JsonML sub-tree), and returns it with modifications.|
 |lineOffset|@integer@|@0@|Line number offset of the first char in input text, for @showOriginalLineNumber@ option.|
 |renderers|<pre><code>[
     content: function(
         tag: string,
-        attributes: object OR undefined,
+        attributes?: object,
         content: string
-    ) :string
+    ): string
 ]</code></pre>|@[]@|Rendering functions, called with the tagName, the attributes object, and the content string :
 @content@ is returned to replace the content string of a tag.|
 |showOriginalLineNumber|@boolean@|@false@|Maps the elements of HTML output, with the line numbers of input text.
