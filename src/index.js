@@ -14,7 +14,9 @@ function textile ( txt, opt ) {
   // get a throw-away copy of options
   opt = merge( merge({}, textile.defaults ), opt || {});
   // run the converter
-  return parseFlow( txt, opt, opt.lineOffset ).map( ( value ) => jsonmlUtils.toHTML( value, opt.renderers ) ).join( '' );
+  return parseFlow( txt, opt, opt.lineOffset ).map( ( value ) => jsonmlUtils.toHTML( value, opt.renderers,
+    {dontEscapeContentForTags: opt.dontEscapeContentForTags}
+  ) ).join( '' );
 };
 module.exports = textile;
 
@@ -31,7 +33,9 @@ textile.defaults = {
   // functions to apply to each JsonML node before rendering to HTML
   'hooks': [],
   // function called where a JsonML node is rendered to HTML
-  'renderers': {}
+  'renderers': {},
+  // don't escape content of this tags list
+  'dontEscapeContentForTags': []
 };
 textile.setOptions = textile.setoptions = function ( opt ) {
   merge( textile.defaults, opt );
@@ -55,7 +59,9 @@ textile.serialize = function ( jsonml, opt ) {
   // get a throw-away copy of options
   opt = merge( merge({}, textile.defaults ), opt || {});
   // serialize
-  return jsonmlUtils.toHTML( jsonml, opt.renderers );
+  return jsonmlUtils.toHTML( jsonml, opt.renderers,
+    {dontEscapeContentForTags: opt.dontEscapeContentForTags}
+  );
 };
 
 textile.jsonmlUtils = jsonmlUtils;

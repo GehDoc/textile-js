@@ -56,6 +56,7 @@ The function receives a JsonML node (JsonML sub-tree), and returns it with modif
 |showOriginalLineNumber|@boolean@|@false@|Maps the elements of HTML output, with the line numbers of input text.
 An HTML attribute @data-line@ is added to the HTML block elements = the line number in input text, of the first char of text inside that HTML block.
 For tags inlined inside textile source, a HTML attribute @data-line-end@ is added too = the line number in input text, of the last char of the closing tag of that HTML block.|
+|dontEscapeContentForTags|@[string]@|@[]@|Don't escape the content of every tag of this list, and of all their children in the generated HTML tree.|
 
 h2. Usage
 

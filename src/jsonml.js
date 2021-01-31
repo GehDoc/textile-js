@@ -42,12 +42,15 @@ function escape ( text, escapeQuotes ) {
     .replace( /'/g, escapeQuotes ? '&#39;' : "'" );
 }
 
-function toHTML ( jsonml, renderers ) {
+function toHTML ( jsonml, renderers, options = {}) {
+  const shouldEscape = options.shouldEscape === undefined ? true : options.shouldEscape;
+  const dontEscapeContentForTags = options.dontEscapeContentForTags || [];
+
   jsonml = jsonml.concat();
 
   // basic case
   if ( typeof jsonml === 'string' ) {
-    return escape( jsonml );
+    return shouldEscape ? escape( jsonml ) : jsonml;
   }
 
   const tag = jsonml.shift();
@@ -60,7 +63,10 @@ function toHTML ( jsonml, renderers ) {
   }
 
   while ( jsonml.length ) {
-    content.push( toHTML( jsonml.shift(), renderers ) );
+    content.push( toHTML( jsonml.shift(), renderers, {
+      dontEscapeContentForTags,
+      shouldEscape: shouldEscape && !dontEscapeContentForTags.includes( tag )
+    }) );
   }
 
   let realContent = content.join( '' );

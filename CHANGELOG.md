@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.111] - 20210131
+### Added
+- [LIBRARY] Add option dontEscapeContentForTags on toHTML function, to allow to not escape content of a configurable list of tags
+
+
+## [2.0.110] - 20201010
+### Added
+* add `npm lint fix` command
+* [Sync from original repo] Support self referencing link syntax
+* [Sync from original repo] Add more cases to phrase boundary detection
+
+### Fixed
+* correct dingus script
+* [Sync from original repo]  npm package does not need to contain everything
+* cleanup doc
+* [Sync from original repo] Textile does not permit lists to start with more than one * or #
+
+### Changed
+* [Sync from original repo]  Updated build system : Removed .min version of lib (it is pointless, we have map files now)
+* [Sync from original repo] Update fix for borgar/textile-js#52
+
+
 ## [2.0.108] - 20200816
 ### Fixed
 - [INTERNAL] Dependency update and security fix
