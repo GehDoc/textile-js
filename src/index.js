@@ -10,12 +10,15 @@ const jsonmlUtils = require( './jsonml' );
 const { parseFlow } = require( './textile/flow' );
 const { parseHtml } = require( './html' );
 
-function textile ( txt, opt ) {
+function textile ( txt, opt, context ) {
   // get a throw-away copy of options
   opt = merge( merge({}, textile.defaults ), opt || {});
   // run the converter
-  return parseFlow( txt, opt, opt.lineOffset ).map( ( value ) => jsonmlUtils.toHTML( value, opt.renderers,
-    {dontEscapeContentForTags: opt.dontEscapeContentForTags}
+  return parseFlow( txt, opt, opt.lineOffset, context ).map( ( value ) => jsonmlUtils.toHTML(
+    value,
+    opt.renderers,
+    {dontEscapeContentForTags: opt.dontEscapeContentForTags},
+    context
   ) ).join( '' );
 };
 module.exports = textile;
@@ -45,22 +48,25 @@ textile.setOptions = textile.setoptions = function ( opt ) {
 textile.parse = textile.convert = textile;
 textile.html_parser = parseHtml;
 
-textile.tokenize = function ( txt, opt ) {
+textile.tokenize = function ( txt, opt, context ) {
   // get a throw-away copy of options
   opt = merge( merge({}, textile.defaults ), opt || {});
   // parse and return tree
-  return parseFlow( txt, opt, opt.lineOffset );
+  return parseFlow( txt, opt, opt.lineOffset, context );
 };
-textile.jsonml = function ( txt, opt ) {
+textile.jsonml = function ( txt, opt, context ) {
   // parse and return tree
-  return [ 'html' ].concat( textile.tokenize( txt, opt ) );
+  return [ 'html' ].concat( textile.tokenize( txt, opt, context ) );
 };
-textile.serialize = function ( jsonml, opt ) {
+textile.serialize = function ( jsonml, opt, context ) {
   // get a throw-away copy of options
   opt = merge( merge({}, textile.defaults ), opt || {});
   // serialize
-  return jsonmlUtils.toHTML( jsonml, opt.renderers,
-    {dontEscapeContentForTags: opt.dontEscapeContentForTags}
+  return jsonmlUtils.toHTML(
+    jsonml,
+    opt.renderers,
+    {dontEscapeContentForTags: opt.dontEscapeContentForTags},
+    context
   );
 };
 

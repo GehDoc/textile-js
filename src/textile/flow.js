@@ -123,7 +123,7 @@ function storeCharPosToLine ( src, options, charOffset ) {
   }
 }
 
-function parseFlow ( src, options, lineOffset ) {
+function parseFlow ( src, options, lineOffset, context ) {
   const list = builder();
 
   let linkRefs;
@@ -323,7 +323,7 @@ function parseFlow ( src, options, lineOffset ) {
                 const innerHTML = inner.replace( /^\n+/, '' ).replace( /\s*$/, '' );
                 const isBlock = /\n\r?\n/.test( innerHTML ) || tag === 'ol' || tag === 'ul';
                 const innerElm = isBlock
-                  ? parseFlow( innerHTML, options, charPosToLine ? charPosToLine[ srcSlot + localCharOffset ] : undefined )
+                  ? parseFlow( innerHTML, options, charPosToLine ? charPosToLine[ srcSlot + localCharOffset ] : undefined, context )
                   : parsePhrase( innerHTML, extend({}, options, { breaks: false }), charPosToLine, srcSlot + localCharOffset );
                 if ( isBlock || /^\n/.test( inner ) ) {
                   elm.push( '\n' );
@@ -365,7 +365,7 @@ function parseFlow ( src, options, lineOffset ) {
     // definition list
     if ( ( m = testDefList( src ) ) ) {
       src.advance( m[0] );
-      list.add( parseDefList( m[0], options, charPosToLine, src.getSlot() ) );
+      list.add( parseDefList( m[0], options, charPosToLine, src.getSlot(), context ) );
       continue;
     }
 
@@ -386,7 +386,7 @@ function parseFlow ( src, options, lineOffset ) {
   if ( options.hooks && Array.isArray( options.hooks ) ) {
     hooks = hooks.concat( options.hooks );
   }
-  return jsonml.applyHooks( list.get(), hooks );
+  return jsonml.applyHooks( list.get(), hooks, undefined, context );
   // return linkRefs ? fixLinks( list.get(), linkRefs ) : list.get();
 }
 

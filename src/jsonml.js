@@ -42,7 +42,7 @@ function escape ( text, escapeQuotes ) {
     .replace( /'/g, escapeQuotes ? '&#39;' : "'" );
 }
 
-function toHTML ( jsonml, renderers, options = {}) {
+function toHTML ( jsonml, renderers, options = {}, context = undefined ) {
   const shouldEscape = options.shouldEscape === undefined ? true : options.shouldEscape;
   const dontEscapeContentForTags = options.dontEscapeContentForTags || [];
 
@@ -72,7 +72,7 @@ function toHTML ( jsonml, renderers, options = {}) {
   let realContent = content.join( '' );
   if ( Array.isArray( renderers ) ) {
     renderers.forEach( render => {
-      realContent = render( tag, attributes, realContent );
+      realContent = render( tag, attributes, realContent, context );
     });
   }
 
@@ -94,17 +94,17 @@ function toHTML ( jsonml, renderers, options = {}) {
   }
 }
 
-function applyHooks ( ml, hooks = [], level = undefined ) {
+function applyHooks ( ml, hooks = [], level = undefined, context = undefined ) {
   if ( Array.isArray( ml ) && Array.isArray( hooks ) && hooks.length ) {
     let realLevel = +level || 0;
     for ( let i = 0, l = hooks.length; i < l; i++ ) {
       const hook = hooks[i];
-      hook[0]( ml, hook[1], realLevel );
+      hook[0]( ml, hook[1], realLevel, context );
     }
     realLevel++;
     for ( let i = 0, l = ml.length; i < l; i++ ) {
       if ( Array.isArray( ml[i] ) ) {
-        applyHooks( ml[i], hooks, realLevel );
+        applyHooks( ml[i], hooks, realLevel, context );
       }
     }
   }

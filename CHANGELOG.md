@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.112] - 20210307
+### Added
+- [LIBRARY] Add option renderContext on toHTML function, to provide an execution context to renderers.
+
+
 ## [2.0.111] - 20210131
 ### Added
 - [LIBRARY] Add option dontEscapeContentForTags on toHTML function, to allow to not escape content of a configurable list of tags

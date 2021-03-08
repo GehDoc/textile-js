@@ -11,7 +11,7 @@ function testDefList ( src ) {
   return reDeflist.exec( src );
 }
 
-function parseDefList ( src, options, charPosToLine, charOffset ) {
+function parseDefList ( src, options, charPosToLine, charOffset, context ) {
   if ( options.showOriginalLineNumber ) {
     const removedSrc = src.match( /^\s+/ );
     if ( removedSrc && removedSrc[0] ) {
@@ -69,7 +69,7 @@ function parseDefList ( src, options, charPosToLine, charOffset ) {
       , [ 'dd' ].concat(
         addLineNumber({}, options, charPosToLine, charOffset, src.getPos() + localCharOffset )
         , ( /=:$/.test( def ) )
-          ? parseFlow( def.slice( 0, -2 ).trim(), options, options.showOriginalLineNumber ? charPosToLine[ ( charOffset || 0 ) + localCharOffset + src.getPos() ] : 0 )
+          ? parseFlow( def.slice( 0, -2 ).trim(), options, options.showOriginalLineNumber ? charPosToLine[ ( charOffset || 0 ) + localCharOffset + src.getPos() ] : 0, context )
           : parsePhrase( def, options, charPosToLine, ( charOffset || 0 ) + localCharOffset + src.getPos() )
       )
       , '\n'
